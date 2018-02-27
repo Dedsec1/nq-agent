@@ -28,17 +28,8 @@ then
 fi
 
 
-	# Remove cron entry and user
-	if id -u $USER >/dev/null 2>&1
-	then
-		(crontab -u $USER -l | grep -v "$HOME/nodequery/nq-agent.sh") | crontab -u $USER
-	else
-		(crontab -u $USER -l | grep -v "$HOME/nodequery/nq-agent.sh") | crontab -u $USER
-	fi
-fi
-
 # Create agent dir
-mkdir -p /etc/nodequery
+mkdir -p $HOME/nodequery
 
 # Download agent
 echo -e "|   Downloading nq-agent.sh to $HOME/nodequery\n|\n|   + $(wget -nv -o /dev/stdout -O $HOME/nodequery/nq-agent.sh --no-check-certificate https://raw.github.com/Dedsec1/nq-agent/master/nq-agent.sh)"
@@ -49,7 +40,7 @@ then
 	echo "$1" > $HOME/nodequery/nq-auth.log
 	
 	# Create user
-	useradd nodequery -r -d $HOME/nodequery -s /bin/false
+	
 	
 	# Modify user permissions
 	
@@ -58,17 +49,9 @@ then
 	chmod +s `type -p ping`
 
 	# Configure cron
-	crontab -u $USER -l 2>/dev/null | { cat; echo "*/3 * * * * bash $HOME/nodequery/nq-agent.sh > $HOME/nodequery/nq-cron.log 2>&1"; } | crontab -u $USER
+		crontab -u $USER -l 2>/dev/null | { cat; echo "*/3 * * * * bash $HOME/nodequery/nq-agent.sh > $HOME/nodequery/nq-cron.log 2>&1"; } | crontab -u $USER -
 	
 	# Show success
 	echo -e "|\n|   Success: The NodeQuery agent has been installed\n|"
 	
-	# Attempt to delete installation script
-	if [ -f $0 ]
-	then
-		rm -f $0
-	fi
-else
-	# Show error
-	echo -e "|\n|   Error: The NodeQuery agent could not be installed\n|"
 fi
