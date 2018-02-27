@@ -21,9 +21,9 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 version="0.7.7"
 
 # Authentication required
-if [ -f /etc/nodequery/nq-auth.log ]
+if [ -f ~/nodequery/nq-auth.log ]
 then
-	auth=($(cat /etc/nodequery/nq-auth.log))
+	auth=($(cat ~/nodequery/nq-auth.log))
 else
 	echo "Error: Authentication log is missing."
 	exit 1
@@ -240,7 +240,7 @@ if [ -n "$(command -v timeout)" ]
 then
 	timeout -s SIGKILL 30 wget -q -o /dev/null -O /etc/nodequery/nq-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://nodequery.com/api/agent.json"
 else
-	wget -q -o /dev/null -O /etc/nodequery/nq-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://nodequery.com/api/agent.json"
+	wget -q -o /dev/null -O ~/nodequery/nq-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://nodequery.com/api/agent.json"
 	wget_pid=$! 
 	wget_counter=0
 	wget_timeout=30
