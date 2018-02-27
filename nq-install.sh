@@ -31,9 +31,9 @@ fi
 	# Remove cron entry and user
 	if id -u $USER >/dev/null 2>&1
 	then
-		(crontab -u $USER -l | grep -v "$HOME/nodequery/nq-agent.sh") | crontab -u $USER
+		(crontab -u atlas -l | grep -v "$HOME/nodequery/nq-agent.sh") | crontab -u atlas
 	else
-		(crontab -u $USER -l | grep -v "$HOME/nodequery/nq-agent.sh") | crontab -u $USER
+		(crontab -u atlas -l | grep -v "$HOME/nodequery/nq-agent.sh") | crontab -u atlas
 	fi
 fi
 
